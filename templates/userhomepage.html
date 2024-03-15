@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Home - Music Recommendation System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container"> 
+        <h2>Welcome Back To Your Personalized Home Page, {{ username }}</h2>
+
+        <form method="GET" action="/search">
+            <div class="form-group">
+                <label for="search_query">Search for Songs</label>
+                <input type="text" class="form-control" id="search_query" name="search_query" placeholder="Enter song name">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+        <div class="search-results">
+            <ul>
+                {% for result in search_results %}
+                    <li>
+                        <strong>{{ result.name }}</strong> by {{ result.artists[0].name }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+
+        <!-- Navigation links -->
+        <div class="nav-links mt-3">
+            <a href="/user-search" class="profile-link">Search for Songs on this Platform</a> | 
+            <a href="{% if creator_account_exists %}/creator-account{% else %}/creator-registration{% endif %}" class="profile-link">Creator Account</a> |
+            <a href="/user-profile" class="profile-link">Profile</a> |
+            <a href="/" class="profile-link">Logout</a> 
+        </div>
+
+        {% if song_info %}
+        <div class="song-info-container mt-3">
+            <h3>{{ song_info.song_name }} by {{ song_info.artist_name }}</h3>
+            <p>{{ lyrics }}</p>
+        </div>
+        {% elif error_message %}
+        <p>{{ error_message }}</p>
+        {% endif %} 
+
+        <div class="genres-list mt-3">
+            <h4>Genres and Songs:</h4>
+            {% for genre_info in genres_and_songs %}
+                <h5>{{ genre_info['genre'] }}</h5>
+                <ul> 
+                    {% for song in genre_info['songs'] %}
+                        <li class="d-flex justify-content-between align-items-center">
+                            <div>
+                                {{ song.name }} by {{ song.singer_name }}
+                                <a href="{{ url_for('read_lyrics', song_id=song.id) }}" class="btn btn-info mr-2">Read Lyrics</a>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <form method="POST" action="{{ url_for('add_to_playlist') }}">
+                                    <input type="hidden" name="song_id" value="{{ song.id }}">
+                                    <button type="submit" class="btn btn-success mr-2">Add to Playlist</button>
+                                </form>
+                                <form method="POST" action="{{ url_for('rate_song') }}">
+                                    <input type="hidden" name="song_id" value="{{ song.id }}">
+                                    <label for="rating" class="mr-2">Rate:</label>
+                                    <select name="rating" id="rating" class="form-control">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary">Rate</button>
+                                </form>
+                            </div> 
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    </div> 
+</body>
+
+</html>

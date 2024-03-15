@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrator Login</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .login-box {
+            max-width: 300px;
+            margin: auto;
+            padding: 20px;
+            background-color: #28a745;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .login-btn {
+            background-color: #fff;
+            color: #28a745;
+            border: 1px solid #28a745;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            background-color: #e2f0d9;
+        }
+
+        .redirect-text {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Administrator Login</h2>
+
+        <!-- Administrator Login Form -->
+        <div class="login-box">
+            <form method="POST" action="/adminlogin"> <!-- Update the form action here --> 
+                <!-- Display error message if present -->
+                {% if error_message %}
+                    <p style="color: red;">{{ error_message }}</p>
+                {% endif %}
+        
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>  
+            </form>
+        </div>
+
+        <!-- Redirect to User Login -->
+        <div class="redirect-text">
+            <p>Don't have Admin access? Go to <a href="/">User Login</a></p> 
+        </div>
+    </div>
+</body>
+
+</html>

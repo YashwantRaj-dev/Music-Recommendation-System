@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Songs in Album - {{ album.album_name }}</title>
+</head>
+<body>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Songs in Album - {{ album.album_name }}</h2>
+            </div>
+            <div class="col-md-6 text-right">
+                <a href="/creator-account" class="btn btn-primary">Add New Song</a>
+            </div>
+        </div>
+
+        <ul class="list-group mt-4">
+            {% for song in songs %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ song.name }} 
+                    <span>
+                        <a href="{{ url_for('edit_song', song_id=song.id) }}" class="btn btn-info btn-sm">Edit</a>
+                        <form method="POST" action="{{ url_for('delete_song', song_id=song.id) }}">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js (if needed) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

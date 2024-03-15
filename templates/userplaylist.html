@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Songs to Playlists</title>
+    <!-- Add your CSS and other styling here -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Add Songs to Playlists</h2>
+
+        <h4>Existing Playlists:</h4>
+        <ul class="list-group">
+            {% for playlist in playlists %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ playlist.name }}
+                    <form method="POST" action="{{ url_for('add_to_existing_playlist') }}">
+                        <input type="hidden" name="song_id" value="{{ song.id }}">
+                        <input type="hidden" name="playlist_id" value="{{ playlist.id }}">
+                        <button type="submit" class="btn btn-info">Add Song In This Playlist</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+        
+        <hr>
+        
+        <!-- Create a New Playlist -->
+        <h4>Create a New Playlist:</h4>
+        <form method="POST" action="{{ url_for('create_new_playlist') }}">
+            <div class="form-group">
+                <label for="new_playlist_name">Playlist Name:</label>
+                <input type="text" class="form-control" id="new_playlist_name" name="new_playlist_name" required>
+            </div>
+            <input type="hidden" name="song_id" value="{{ song.id }}">
+            <button type="submit" class="btn btn-success">Create and Add Song</button>
+
+            <a href="{{ url_for('login_validation') }}" class="btn btn-primary mt-3">Back</a>
+            
+        </form>
+    </div>
+</body>
+
+</html>

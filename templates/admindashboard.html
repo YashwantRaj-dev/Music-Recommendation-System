@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Administrator Dashboard</title>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h2>Administrator Dashboard</h2>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Normal Users</h5>
+                    <p class="card-text">{{ total_users }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Creators</h5>
+                    <p class="card-text">{{ total_creators }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Songs</h5>
+                    <p class="card-text">{{ total_songs }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Average Rating of All Songs</h5>
+                    <p class="card-text">{{ average_rating_all_songs }}</p>
+                </div>
+            </div>
+        </div>
+        <!-- Add other cards for Normal Users, Creators, and Total Songs here -->
+    </div>
+    
+    <div class="mt-4">
+        <h3>List of Creators</h3>
+
+        <!-- List of Creators -->
+        <ul class="list-group">
+            {% for creator in creators %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ creator.username }}
+                    <span> 
+                        <form method="POST" action="{{ url_for('admin_remove_creator', creator_id=creator.id) }}" style="display: inline;">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        </form>
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="mt-4">
+        <h3>List of Genres</h3>
+
+        <!-- List of Genres -->
+        <ul class="list-group">
+            {% for genre in genres %}
+                <li class="list-group-item">{{ genre }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="mt-4">
+        <h3>Albums</h3>
+
+        <!-- List of Albums -->
+        <ul class="list-group">
+            {% for album in albums %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ album.album_name }}
+                    <span> 
+                        <a href="{{ url_for('admin_view_album_songs', album_id=album.id) }}" class="btn btn-info btn-sm">View Songs</a>
+                        <form method="POST" action="{{ url_for('admin_delete_album', album_id=album.id) }}" style="display: inline;">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>  
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="mt-4">
+        <!-- Logout link or button -->
+        <a href="{{ url_for('index_template') }}" class="btn btn-primary">Logout</a>
+    </div>
+    
+</div>
+
+<!-- Bootstrap JS and Popper.js (if needed) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

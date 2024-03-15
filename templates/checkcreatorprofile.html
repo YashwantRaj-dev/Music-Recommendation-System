@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Creator Account Profile</title>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Creator Account</h2>
+        </div>
+        <div class="col-md-4 text-center">
+            <a href="/creator-account">Upload Song</a> | <a href="/user-home">User Account</a> | <a href="http://127.0.0.1:5000/">Logout</a>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <h3>Dashboard</h3>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Songs Uploaded</h5>
+                        <p class="card-text">{{ total_songs }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Average Rating</h5>
+                        <p class="card-text">{{ average_rating }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Albums</h5>
+                        <p class="card-text">{{ total_albums }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <h3>Your Uploads</h3>
+
+            <!-- List of Albums -->
+            <ul class="list-group">
+                {% for album in albums %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ album.album_name }}
+                        <span> 
+                            <a href="{{ url_for('view_album_songs', album_id=album.id) }}" class="btn btn-info btn-sm">View Songs</a>
+                            <form method="POST" action="{{ url_for('delete_album', album_id=album.id) }}" style="display: inline;">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>  
+                        </span>
+                    </li>
+                {% endfor %}
+            </ul>
+            
+        </div>
+    </div>
+
+</div>
+
+<!-- Bootstrap JS and Popper.js (if needed) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

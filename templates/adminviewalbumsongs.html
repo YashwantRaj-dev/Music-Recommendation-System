@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>View Songs</title>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>{{ album.album_name }} Songs</h2>
+
+    <ul class="list-group">
+        {% for song in songs %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ song.name }} - {{ song.singer_name }}
+                <span>
+                    <a href="{{ url_for('admin_view_lyrics', song_id=song.id) }}" class="btn btn-info btn-sm">View Lyrics</a>
+                    <form method="POST" action="{{ url_for('admin_delete_song', song_id=song.id, album_id=album.id) }}" style="display: inline;">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </span>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- Bootstrap JS and Popper.js (if needed) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
